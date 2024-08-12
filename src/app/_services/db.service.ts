@@ -10,18 +10,9 @@ import { Note } from '../_interfaces/note';
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { environment } from '../../environments/environment';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyBZrN9H_D5R4cjpxckizldO0t9sJtB47DA',
-  authDomain: 'keepynotes-1d3e0.firebaseapp.com',
-  projectId: 'keepynotes-1d3e0',
-  storageBucket: 'keepynotes-1d3e0.appspot.com',
-  messagingSenderId: '349075250932',
-  appId: '1:349075250932:web:158e05b11c8c46a63048a1',
-  measurementId: 'G-SC61C50XES',
-};
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(environment.firebaseConfig);
 export const db = getFirestore(app);
 
 export const dbService = {
