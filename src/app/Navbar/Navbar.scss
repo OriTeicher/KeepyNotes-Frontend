@@ -1,0 +1,29 @@
+@use "../../main.scss" as *;
+
+.header-input {
+  color: #fff;
+
+  outline: 1px solid rgba(255, 255, 255, 0.2);
+  transition: 0.2s ease-in;
+  width: 40%;
+  min-width: 418px;
+  padding: 15px 10px;
+  font-size: 1rem;
+  background-color: $bgc-003;
+  &::placeholder {
+    color: #ffffff9a;
+    font-weight: 100;
+  }
+  border-radius: $main-border-radius;
+  &:focus {
+    color: #000;
+    &::placeholder {
+      font-weight: 100;
+    }
+    background-color: #ffffffb6;
+  }
+}
+
+.hamburger-svg {
+  font-size: $svg-font-size;
+}

@@ -1,0 +1,3 @@
+@for (icon of icons; track icon) {
+<ng-icon [name]="icon.svg" (click)="handleNoteAction($event,icon.type)" class="note-icon" [title]="icon.type"></ng-icon>
+}
