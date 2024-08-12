@@ -47,7 +47,7 @@ function getDemoNote() {
       ? NOTE_COLORS[randColorIdx]
       : NOTES_GRADIENTS[randColorIdx];
   dbService.addNote({
-    _id: `note-000${idNumber}`,
+    _id: `demo-note-${idNumber}`,
     title,
     txt,
     createdAt,
@@ -56,7 +56,7 @@ function getDemoNote() {
     timestamp: Date.now(),
   });
   return {
-    _id: `note-000${idNumber}`,
+    _id: `demo-note-${idNumber}`,
     title,
     txt,
     type,

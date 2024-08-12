@@ -46,8 +46,8 @@ async function loadNotes(): Promise<Note[]> {
   try {
     const notesFromCollection = await getDocs(notesCollection);
     const adjustedNotes = notesFromCollection.docs.map((doc) => ({
-      _id: doc.id,
       ...doc.data(),
+      _id: doc.id,
     })) as Note[];
     console.log('adjustedNotes', adjustedNotes);
     return adjustedNotes.sort((n1, n2) => n2.timestamp - n1.timestamp);

@@ -17,8 +17,7 @@ export class NoteService {
     this.loadingSubject.next(true);
     try {
       const notes = await dbService.loadNotes();
-      if (!notes || notes.length < 1)
-        notes.push(...noteService.getDemoNotes(3));
+      if (!notes.length) notes.push(...noteService.getDemoNotes(10));
       this.setNotes(notes);
     } catch (e) {
       console.error('Error loading notes: ', e);
