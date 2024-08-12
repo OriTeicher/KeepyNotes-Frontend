@@ -29,6 +29,8 @@ export const dbService = {
   loadNotes,
   removeNote,
   updateNote,
+  addNoteWithAutoId,
+  updateNoteId,
 };
 
 const NOTES_COLLECTION_KEY = 'notes';
@@ -76,4 +78,14 @@ async function updateNote(
   } catch (e) {
     console.error('Error updating note: ', e);
   }
+}
+
+function addNoteWithAutoId(note: Note) {
+  const notesRef = collection(db, 'notes');
+  return addDoc(notesRef, note);
+}
+
+function updateNoteId(docId: string, noteId: string) {
+  const docRef = doc(db, 'notes', docId);
+  return updateDoc(docRef, { _id: noteId });
 }

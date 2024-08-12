@@ -25,15 +25,15 @@ export const NOTES_GRADIENTS = [
   'linear-gradient(0deg, #08AEEA 0%, #2AF598 100%)',
 ];
 
-function getDemoNotes(amount: number = 10): Note[] {
+async function getDemoNotes(amount: number = 10): Promise<Note[]> {
   let notes = [];
   for (let i = 0; i < amount; i++) {
-    notes.push(getDemoNote());
+    notes.push(await getDemoNote());
   }
   return notes;
 }
 
-function getDemoNote() {
+async function getDemoNote() {
   const randColorIdx = getRandomIntInclusive(0, 5);
   const titles = ['Meeting', 'Shopping', 'Project', 'Workout Plan', 'Recipe'];
   const types = ['text', 'todo', 'img', 'video', 'canvas'];
@@ -41,22 +41,14 @@ function getDemoNote() {
   const txt = makeSentence(getRandomIntInclusive(1, 10));
   const type = types[Math.floor(Math.random() * types.length)];
   const createdAt = formatDate(new Date());
-  const idNumber = getRandomIntInclusive(1, 1000000);
   const color =
     randColorIdx % 2 === 0
       ? NOTE_COLORS[randColorIdx]
       : NOTES_GRADIENTS[randColorIdx];
-  dbService.addNote({
-    _id: `demo-note-${idNumber}`,
-    title,
-    txt,
-    createdAt,
-    type,
-    color,
-    timestamp: Date.now(),
-  });
-  return {
-    _id: `demo-note-${idNumber}`,
+
+  // Create a note object without _id
+  const newNote: Note = {
+    _id: '', // Will be updated with the actual Firestore ID
     title,
     txt,
     type,
@@ -64,6 +56,17 @@ function getDemoNote() {
     color,
     timestamp: Date.now(),
   };
+
+  // Add the note to Firestore and get the document reference
+  const docRef = await dbService.addNoteWithAutoId(newNote);
+
+  // After the document is created, update the _id field with the generated doc.id
+  newNote._id = docRef.id;
+
+  // Optionally, you can update the document in Firestore to include the _id field
+  await dbService.updateNoteId(docRef.id, newNote._id);
+
+  return newNote;
 }
 
 export function getEmptyNote(

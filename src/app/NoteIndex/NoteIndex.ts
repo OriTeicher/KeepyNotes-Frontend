@@ -54,15 +54,14 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.isLoadingNotes = true;
     this.subscription = this.notesService.notes$.subscribe((notes) => {
       this.notes = notes;
       this.isLoadingNotes = false;
       this.cdr.markForCheck();
     });
-
-    this.notesService.loadNotes();
+    await this.notesService.loadNotes();
   }
 
   ngOnDestroy(): void {
