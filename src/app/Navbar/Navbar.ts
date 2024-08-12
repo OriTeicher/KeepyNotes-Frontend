@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core'
-import { NgIconComponent, provideIcons } from '@ng-icons/core'
-import { heroBars4, heroUserCircle } from '@ng-icons/heroicons/outline'
-import { MenuService } from '../_services/menu.service'
-import { NoteService } from '../_services/note.service'
-import { Subject } from 'rxjs'
-import { debounceTime } from 'rxjs/operators'
+import { Component, EventEmitter, Output } from '@angular/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { heroBars4, heroUserCircle } from '@ng-icons/heroicons/outline';
+import { MenuService } from '../_services/menu.service';
+import { NoteService } from '../_services/note.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'navbar',
@@ -15,10 +15,10 @@ import { debounceTime } from 'rxjs/operators'
   viewProviders: [provideIcons({ heroBars4, heroUserCircle })],
 })
 export class NavbarComponent {
-  private searchTerm$ = new Subject<string>()
-  loggedInUser = { username: 'OriT5799' }
-  isMenuOpen = true
-  @Output() toggleMenuClick = new EventEmitter<boolean>()
+  private searchTerm$ = new Subject<string>();
+  loggedInUser = { username: '' };
+  isMenuOpen = true;
+  @Output() toggleMenuClick = new EventEmitter<boolean>();
 
   constructor(
     private menuService: MenuService,
@@ -26,15 +26,15 @@ export class NavbarComponent {
   ) {
     this.searchTerm$
       .pipe(debounceTime(500))
-      .subscribe((term) => this.noteService.filterNotes(term))
+      .subscribe((term) => this.noteService.filterNotes(term));
   }
 
   handleToggleMenu() {
-    this.menuService.toggleMenu()
+    this.menuService.toggleMenu();
   }
 
   onSearchNotes(event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value
-    this.searchTerm$.next(searchTerm)
+    const searchTerm = (event.target as HTMLInputElement).value;
+    this.searchTerm$.next(searchTerm);
   }
 }
