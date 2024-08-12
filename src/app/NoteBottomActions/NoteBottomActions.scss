@@ -1,0 +1,9 @@
+.note-icon {
+  font-size: 23px;
+  transition: scale 0.2s;
+  &:hover {
+    scale: 1.2;
+    opacity: 0.5;
+  }
+  bottom: 0;
+}
