@@ -1,4 +1,4 @@
-# Keepy - Google keep clone - [KeepyNotes - DEMO](https://oriteicher.github.io/KeepyNotes-frontend/notes)
+# KeepyNotes - Google keep clone - [Click to try the demo here 🥳](https://oriteicher.github.io/KeepyNotes-frontend/notes)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
 
