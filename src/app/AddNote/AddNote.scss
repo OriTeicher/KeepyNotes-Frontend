@@ -10,6 +10,8 @@ $font-family-001: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
 
   color: white;
   ::placeholder {
+    color: #ffffff9a;
+
     font-size: 1.2em;
     font-weight: 300;
   }
@@ -21,7 +23,7 @@ $font-family-001: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
   margin-block-end: 10px;
 
   input {
-    background-color: #393c3f;
+    background-color: #3b3e41;
 
     border-radius: 5px 5px 0 0;
     transition: 0.2s background-color ease-in;
@@ -41,7 +43,7 @@ $font-family-001: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
   }
   textarea {
     border-radius: 0 0 5px 5px;
-    background-color: #393c3f;
+    background-color: #3b3e41;
     color: #fff;
     transition: 0.2s background-color ease-in;
     padding-inline-start: 10px;

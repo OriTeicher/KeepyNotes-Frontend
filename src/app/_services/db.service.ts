@@ -29,6 +29,8 @@ export const dbService = {
   loadNotes,
   removeNote,
   updateNote,
+  addNoteWithAutoId,
+  updateNoteId,
 };
 
 const NOTES_COLLECTION_KEY = 'notes';
@@ -44,12 +46,13 @@ async function addNote(note: Note): Promise<void> {
 
 async function loadNotes(): Promise<Note[]> {
   try {
-    const notesSnapshot = await getDocs(notesCollection);
-    const notesList = notesSnapshot.docs.map((doc) => ({
-      _id: doc.id,
+    const notesFromCollection = await getDocs(notesCollection);
+    const adjustedNotes = notesFromCollection.docs.map((doc) => ({
       ...doc.data(),
+      _id: doc.id,
     })) as Note[];
-    return notesList;
+    console.log('adjustedNotes', adjustedNotes);
+    return adjustedNotes.sort((n1, n2) => n2.timestamp - n1.timestamp);
   } catch (e) {
     console.error('Error loading notes: ', e);
     return [];
@@ -75,4 +78,14 @@ async function updateNote(
   } catch (e) {
     console.error('Error updating note: ', e);
   }
+}
+
+function addNoteWithAutoId(note: Note) {
+  const notesRef = collection(db, 'notes');
+  return addDoc(notesRef, note);
+}
+
+function updateNoteId(docId: string, noteId: string) {
+  const docRef = doc(db, 'notes', docId);
+  return updateDoc(docRef, { _id: noteId });
 }
