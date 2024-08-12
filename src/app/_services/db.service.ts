@@ -44,12 +44,13 @@ async function addNote(note: Note): Promise<void> {
 
 async function loadNotes(): Promise<Note[]> {
   try {
-    const notesSnapshot = await getDocs(notesCollection);
-    const notesList = notesSnapshot.docs.map((doc) => ({
+    const notesFromCollection = await getDocs(notesCollection);
+    const adjustedNotes = notesFromCollection.docs.map((doc) => ({
       _id: doc.id,
       ...doc.data(),
     })) as Note[];
-    return notesList;
+    console.log('adjustedNotes', adjustedNotes);
+    return adjustedNotes.sort((n1, n2) => n2.timestamp - n1.timestamp);
   } catch (e) {
     console.error('Error loading notes: ', e);
     return [];
