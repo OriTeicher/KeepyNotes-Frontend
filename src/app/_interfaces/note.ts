@@ -12,6 +12,7 @@ export interface Note {
 }
 
 export interface TodoItem {
+  _id: string
   createdAt: Date
   content: string
   isDone: boolean

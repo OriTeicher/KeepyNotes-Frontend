@@ -1,7 +1,7 @@
 import { Note, TodoItem } from '../_interfaces/note'
 import { dbService } from './db.service'
 import { unsplashService } from './unsplash.service'
-import { getRandomIntInclusive, makeSentence } from './util.service'
+import { getRandomIntInclusive, makeId, makeSentence } from './util.service'
 
 export const noteService = {
   getDemoNotes,
@@ -76,6 +76,7 @@ function getRandomTodos(numberOfTasks: number): TodoItem[] {
   for (let i = 0; i < numberOfTasks; i++) {
     const randomTask = tasks[Math.floor(Math.random() * tasks.length)]
     const todoItem: TodoItem = {
+      _id: makeId('t-'),
       createdAt: new Date(Date.now()),
       content: randomTask,
       isDone: getRandomIntInclusive(0, 1) ? true : false,

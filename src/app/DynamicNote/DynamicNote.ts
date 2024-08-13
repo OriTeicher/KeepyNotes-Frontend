@@ -11,10 +11,13 @@ import { TimestampToDatePipe } from '../_pipes/timestamp-to-date.pipe'
 })
 export class DynamicNoteComponent {
   @Input() note!: Note
-  handleEv(event: Event) {
-    console.log('event', event)
-    event.preventDefault()
+
+  toggleIsDone(todoId: string) {
+    const todoToUpdate = this.note.todos?.find((todo) => todo._id === todoId)!
+    todoToUpdate.isDone = !todoToUpdate.isDone
+  }
+
+  handleEventClick(event: any) {
     event.stopPropagation()
-    return
   }
 }

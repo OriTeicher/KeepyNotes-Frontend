@@ -38,7 +38,7 @@
     }
     .icons-container {
       position: absolute;
-      bottom: 0;
+      bottom: 2px;
       display: flex;
       transition: opacity 0.2s ease-in;
       gap: 10px;
@@ -47,8 +47,8 @@
       padding: 5px 0px;
       align-items: center;
       justify-content: center;
-      background-color: #ffffff0c;
-      outline: 1px solid rgba(0, 0, 0, 0.267);
+      background-color: #ffffff2c;
+      border-top: 1px solid rgba(0, 0, 0, 0.267);
       opacity: 0;
       &.hovered {
         opacity: 1;

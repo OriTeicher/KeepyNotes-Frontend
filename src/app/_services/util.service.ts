@@ -4,9 +4,9 @@ export function getRandomIntInclusive(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-export function makeId() {
+export function makeId(initials: string = 'n-') {
   const randNum = getRandomIntInclusive(10000, 100000000)
-  return `n-${randNum}`
+  return `${initials}${randNum}`
 }
 
 export function getRandomColor(): string {
