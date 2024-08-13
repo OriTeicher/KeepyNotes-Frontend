@@ -43,7 +43,8 @@ export class NoteService {
     try {
       const noteUUID = await dbService.addNote(noteToAdd)
       const currentNotes = [...this.notesSubject.value]
-      currentNotes.unshift({ ...noteToAdd, _id: noteUUID })
+      noteToAdd._id = noteUUID
+      currentNotes.unshift({ ...noteToAdd })
       this.notesSubject.next(currentNotes)
       this.originalNotes.unshift(noteToAdd)
     } catch (e) {
