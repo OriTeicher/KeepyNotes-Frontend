@@ -1,12 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core'
 import { NgIconComponent, provideIcons } from '@ng-icons/core'
-import {
-  matDeleteForever,
-  matContentCopy,
-  matColorLens,
-  matCropOriginal,
-  matDone,
-} from '@ng-icons/material-icons/baseline'
+import { matDeleteForever, matContentCopy, matColorLens, matDone } from '@ng-icons/material-icons/baseline'
+import { matContentCopyRound } from '@ng-icons/material-icons/round'
 import { NoteAction } from '../_interfaces/NoteAction'
 @Component({
   selector: 'note-bottom-actions',
@@ -17,7 +12,7 @@ import { NoteAction } from '../_interfaces/NoteAction'
       matDeleteForever,
       matContentCopy,
       matColorLens,
-      matCropOriginal,
+      matContentCopyRound,
       matDone,
     }),
   ],
@@ -30,9 +25,9 @@ export class NoteBottomActionsComponent {
 
   icons = [
     { type: 'remove', svg: 'matDeleteForever' },
-    { type: 'copy', svg: 'matContentCopy' },
+    { type: 'copy', svg: 'matContentCopyRound' },
     { type: 'color', svg: 'matColorLens' },
-    // { type: 'img', svg: 'matCropOriginal' },
+    // { type: 'img', svg: 'matContentCopyOutline' },
     // { type: 'todo', svg: 'matDone' },
   ]
 

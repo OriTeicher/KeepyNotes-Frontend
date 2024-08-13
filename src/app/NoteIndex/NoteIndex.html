@@ -5,8 +5,8 @@
   <div class="note-preview" [ngStyle]="{'background': note.color}" style="position: relative;" noteHover
     (click)="displayNoteEditor(note._id)">
     <h2>{{note.title}}</h2>
-    <h4>{{note.txt}}</h4>
-    <p>{{note.createdAt}}</p>
+    <p style="font-weight: 400;">{{note.txt}}</p>
+    <p style="position: absolute; bottom: 6.5px; right: 5px; color: #333">{{note.createdAt}}</p>
     <note-bottom-actions class="icons-container" [noteId]="note._id" (noteAction)="onNoteAction($event)" />
     <color-picker [noteId]="note._id" [noteColor]="note.color" [selectedNote]="selectedNote!"
       [isColorPickerOpen]="isColorPickerOpen" (selectedColor)="onNoteAction($event)"> </color-picker>

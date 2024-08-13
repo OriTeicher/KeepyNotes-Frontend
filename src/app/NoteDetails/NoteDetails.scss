@@ -7,11 +7,13 @@ dialog {
   position: fixed;
   display: flex;
   align-items: center;
-  border-radius: 5px;
   justify-content: center;
   background-color: transparent;
   border: none;
   color: black;
+  form {
+    outline: 1px black solid;
+  }
   input ::placeholder {
     color: gray;
   }
@@ -24,7 +26,7 @@ dialog {
       padding: 10px;
       min-height: 200px;
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 400;
       background-color: transparent;
     }
     input {
@@ -52,4 +54,15 @@ dialog {
   transition: 0.2s ease;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
+}
+@media (max-width: 800px) {
+  dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] textarea[_ngcontent-ng-c2654502689] {
+    padding-bottom: 50px;
+    min-height: 30vh;
+    min-width: 100vw;
+    overflow: unset;
+  }
+  dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] {
+    border-radius: 0;
+  }
 }

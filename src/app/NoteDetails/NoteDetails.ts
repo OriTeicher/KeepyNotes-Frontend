@@ -15,11 +15,7 @@ export class NoteDetailsComponent implements OnInit {
   noteToEdit!: Note | null | undefined
   noteId!: string
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private noteService: NoteService
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router, private noteService: NoteService) {}
 
   async ngOnInit(): Promise<void> {
     try {
