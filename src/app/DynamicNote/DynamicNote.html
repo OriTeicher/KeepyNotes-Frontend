@@ -1,0 +1,20 @@
+<h2>{{note.title}}</h2>
+@switch (note.type) {
+@case ('txt') {
+<p>{{note.txt}}</p>
+}
+@case ('todo') {
+<ul class="todos-container flex flex-col" onclick="handleEv">
+  @for (todo of note.todos; track note.todos) {
+  <li class="todo-item">
+    <p [class]="todo.isDone ? 'done' : 'active'">{{todo.content}}</p>
+    <input type="checkbox" [checked]="todo.isDone">
+  </li>
+  }
+</ul>
+}
+@case ('img'){
+<img [src]="note.imgUrl" alt="img" />
+}
+}
+<p style="position: absolute; bottom: 6.5px; right: 5px; color: #333">{{note.createdAt}}</p>

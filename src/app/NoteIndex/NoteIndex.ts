@@ -1,20 +1,9 @@
 import { CommonModule } from '@angular/common'
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ChangeDetectorRef,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core'
 import { NoteService } from '../_services/note.service'
 import { NoteBottomActionsComponent } from '../NoteBottomActions/NoteBottomActions'
 import { Note } from '../_interfaces/note'
-import {
-  ADD_UPDATE_NOTE_ACTION,
-  COLOR_NOTE_ACTION,
-  COPY_NOTE_ACTION,
-  REMOVE_NOTE_ACTION,
-} from '../_services/consts.service'
+import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_ACTION, COPY_NOTE_ACTION, REMOVE_NOTE_ACTION } from '../_services/consts.service'
 import { ColorPickerComponent } from '../ColorPicker/ColorPicker'
 import { HoverDirective } from '../_directives/note.hover.directive'
 import { AddNoteComponent } from '../AddNote/AddNote'
@@ -23,19 +12,12 @@ import { Router, RouterModule } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { Loader } from '../Loader/Loader'
 import { makeId } from '../_services/util.service'
+import { DynamicNoteComponent } from '../DynamicNote/DynamicNote'
 
 @Component({
   selector: 'note-index',
   standalone: true,
-  imports: [
-    Loader,
-    CommonModule,
-    NoteBottomActionsComponent,
-    ColorPickerComponent,
-    AddNoteComponent,
-    HoverDirective,
-    RouterModule,
-  ],
+  imports: [DynamicNoteComponent, Loader, CommonModule, NoteBottomActionsComponent, ColorPickerComponent, AddNoteComponent, HoverDirective, RouterModule],
   templateUrl: './NoteIndex.html',
   styleUrls: ['./NoteIndex.scss', '../../main.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,11 +30,7 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
   isLoadingNotes: boolean = false
   private subscription!: Subscription
 
-  constructor(
-    private notesService: NoteService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private notesService: NoteService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   async ngOnInit(): Promise<void> {
     this.isLoadingNotes = true
@@ -117,9 +95,7 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
   }
 
   async onNoteAction(action: NoteAction): Promise<void> {
-    this.selectedNote = action.noteId
-      ? this.notes[this.getNoteIdxById(action.noteId)]
-      : null
+    this.selectedNote = action.noteId ? this.notes[this.getNoteIdxById(action.noteId)] : null
     switch (action.type) {
       case ADD_UPDATE_NOTE_ACTION:
         await this.addUpdateNote(action.noteId, action.data)
@@ -131,9 +107,7 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
         await this.duplicateNote(action.noteId!)
         break
       case COLOR_NOTE_ACTION:
-        action.data
-          ? await this.paintNote(action.data, action.noteId!)
-          : this.toggleColorPicker()
+        action.data ? await this.paintNote(action.data, action.noteId!) : this.toggleColorPicker()
         break
     }
   }

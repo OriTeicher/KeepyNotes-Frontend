@@ -6,7 +6,6 @@
     break-inside: avoid;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     &:hover {
       cursor: pointer;
     }
@@ -47,7 +46,7 @@
       left: 0;
       padding: 5px 0px;
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: center;
       background-color: #ffffff0c;
       outline: 1px solid rgba(0, 0, 0, 0.267);
       opacity: 0;
@@ -59,16 +58,22 @@
 }
 
 .note-preview.hovered {
-  scale: 1.02;
   .icons-container {
     opacity: 1;
   }
 }
 
 .notes-layout {
+  padding-inline: 5px;
   columns: 300px auto;
   column-gap: $inline-space;
   .note-preview {
     margin-block-end: $inline-space;
+  }
+}
+
+@media (max-width: 800px) {
+  .notes-layout {
+    padding: 0;
   }
 }

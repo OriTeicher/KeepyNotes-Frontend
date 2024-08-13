@@ -3,8 +3,24 @@
 <dialog>
   <form (submit)="onUpdateNote($event)" class="add-note-container" [style]="{'background': noteToEdit?.color}">
     <input type="text" placeholder="Title..." [value]="noteToEdit?.title" name="title">
+    @if(noteToEdit?.type === 'txt'){
     <textarea placeholder=" How are you today..." [value]="noteToEdit?.txt" name="txt"> </textarea>
-    <button>Update</button>
+    }
+    @if(noteToEdit?.type === 'img'){
+    <img [src]="noteToEdit?.imgUrl" style="height: auto; width: 100%; object-fit: cover; border-radius: 0px" />
+    }
+    @if(noteToEdit?.type === 'todo'){
+    <div class="todos-layout">
+      <ul class="todos-container flex flex-col">
+        @for (todo of noteToEdit?.todos; track noteToEdit?.todos) {
+        <li class="todo-item">
+          <p contenteditable="true" [class]="todo.isDone ? 'done' : 'active'">{{todo.content}}</p>
+          <input type="checkbox" [checked]="todo.isDone">
+        </li>
+        }
+      </ul>
+    </div>}
+    <button>Keep</button>
   </form>
 </dialog>
 }

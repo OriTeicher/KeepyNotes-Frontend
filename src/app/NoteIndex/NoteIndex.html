@@ -3,10 +3,8 @@
 <section class="notes-layout">
   @for (note of notes; track note) {
   <div class="note-preview" [ngStyle]="{'background': note.color}" style="position: relative;" noteHover
-    (click)="displayNoteEditor(note._id)">
-    <h2>{{note.title}}</h2>
-    <h4>{{note.txt}}</h4>
-    <p>{{note.createdAt}}</p>
+    (click)="displayNoteEditor(note._id)" [class.fly-animation]="selectedNote?._id === note._id">
+    <dynamic-note [note]="note"> </dynamic-note>
     <note-bottom-actions class="icons-container" [noteId]="note._id" (noteAction)="onNoteAction($event)" />
     <color-picker [noteId]="note._id" [noteColor]="note.color" [selectedNote]="selectedNote!"
       [isColorPickerOpen]="isColorPickerOpen" (selectedColor)="onNoteAction($event)"> </color-picker>
