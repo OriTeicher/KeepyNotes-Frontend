@@ -1,5 +1,6 @@
-import { Note } from '../_interfaces/note'
+import { Note, TodoItem } from '../_interfaces/note'
 import { dbService } from './db.service'
+import { unsplashService } from './unsplash.service'
 import { getRandomIntInclusive, makeSentence } from './util.service'
 
 export const noteService = {
@@ -8,6 +9,8 @@ export const noteService = {
 }
 
 export const NOTE_COLORS = ['white', 'pink', 'lightcoral', 'lightskyblue', 'lightsteelblue', 'lightseagreen']
+
+const DEMO_IMG = 'https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/faab797a-b8cb-4ec3-a641-3a69dda8e0f9.png'
 
 export const NOTES_GRADIENTS = [
   'linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%)',
@@ -29,29 +32,62 @@ async function getDemoNotes(amount: number = 10): Promise<Note[]> {
 async function getDemoNote() {
   const randColorIdx = getRandomIntInclusive(0, 5)
   const titles = ['Meeting', 'Shopping', 'Project', 'Workout Plan', 'Recipe']
-  const types = ['text', 'todo', 'img', 'video', 'canvas']
+  const types = ['txt', 'todo', 'img']
   const title = titles[Math.floor(Math.random() * titles.length)]
-  const txt = makeSentence(getRandomIntInclusive(1, 10))
+  const randTime = Date.now() - getRandomIntInclusive(100000, 100000000)
   const type = types[Math.floor(Math.random() * types.length)]
-  const createdAt = formatDate(new Date())
+  const createdAt = formatDate(new Date(randTime))
   const color = randColorIdx % 2 === 0 ? NOTE_COLORS[randColorIdx] : NOTES_GRADIENTS[randColorIdx]
-
-  const newNote: Note = {
+  let newNote: Note = {
     _id: '',
     title,
-    txt,
     type,
     createdAt,
     color,
     timestamp: Date.now(),
   }
-
+  newNote = await _getRandomNoteItemsByType(newNote)
   const docRef = await dbService.addNoteWithAutoId(newNote)
-
   newNote._id = docRef.id
   await dbService.updateNoteId(docRef.id, newNote._id)
 
   return newNote
+}
+
+async function _getRandomNoteItemsByType(note: Note): Promise<Note> {
+  switch (note.type) {
+    case 'todo':
+      note.todos = getRandomTodos(getRandomIntInclusive(3, 5))
+      break
+    case 'img':
+      note.imgUrl = await getRandomImg(note.title)
+      break
+    case 'txt':
+    default:
+      note.txt = makeSentence(5)
+      break
+  }
+  return note
+}
+
+function getRandomTodos(numberOfTasks: number): TodoItem[] {
+  const tasks = ['Buy groceries', 'Finish report', 'Call the bank', 'Schedule appointment', 'Clean the house', 'Prepare presentation', 'Read a book', 'Exercise', 'Plan the trip', 'Pay bills']
+  const randomTodos: TodoItem[] = []
+  for (let i = 0; i < numberOfTasks; i++) {
+    const randomTask = tasks[Math.floor(Math.random() * tasks.length)]
+    const todoItem: TodoItem = {
+      createdAt: new Date(Date.now()),
+      content: randomTask,
+      isDone: getRandomIntInclusive(0, 1) ? true : false,
+    }
+    randomTodos.push(todoItem)
+  }
+
+  return randomTodos
+}
+
+function getRandomImg(task: string) {
+  return unsplashService.fetchPhotoFromUnsplash(1, task)
 }
 
 export function getEmptyNote(title: string = 'Title...', txt: string = 'Description...', type: string = 'txt') {
@@ -62,7 +98,7 @@ export function getEmptyNote(title: string = 'Title...', txt: string = 'Descript
     type,
     createdAt: formatDate(new Date()),
     color: '#FFF',
-    timestamp: Date.now(),
+    timestamp: new Date(Date.now()),
   }
 }
 

@@ -3,13 +3,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { Note } from '../_interfaces/note'
 import { NoteService } from '../_services/note.service'
 import { FormsModule } from '@angular/forms'
-
 @Component({
   selector: 'App-note-details',
   standalone: true,
   imports: [FormsModule, RouterModule],
   templateUrl: './NoteDetails.html',
-  styleUrls: ['../AddNote/AddNote.scss', './NoteDetails.scss'],
+  styleUrls: ['../AddNote/AddNote.scss', '../DynamicNote/DynamicNote.scss', './NoteDetails.scss'],
 })
 export class NoteDetailsComponent implements OnInit {
   noteToEdit!: Note | null | undefined

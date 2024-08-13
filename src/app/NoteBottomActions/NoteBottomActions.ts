@@ -28,7 +28,7 @@ export class NoteBottomActionsComponent {
     { type: 'copy', svg: 'matContentCopyRound' },
     { type: 'color', svg: 'matColorLens' },
     // { type: 'img', svg: 'matContentCopyOutline' },
-    // { type: 'todo', svg: 'matDone' },
+    { type: 'todo', svg: 'matDone' },
   ]
 
   handleNoteAction(ev: Event, type: string) {

@@ -6,7 +6,6 @@
     break-inside: avoid;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     &:hover {
       cursor: pointer;
     }
@@ -59,16 +58,22 @@
 }
 
 .note-preview.hovered {
-  filter: brightness(110%);
   .icons-container {
     opacity: 1;
   }
 }
 
 .notes-layout {
+  padding-inline: 5px;
   columns: 300px auto;
   column-gap: $inline-space;
   .note-preview {
     margin-block-end: $inline-space;
+  }
+}
+
+@media (max-width: 800px) {
+  .notes-layout {
+    padding: 0;
   }
 }

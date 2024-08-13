@@ -18,8 +18,8 @@ dialog {
     color: gray;
   }
   .add-note-container {
-    width: 50vw;
-    min-width: fit-content;
+    height: fit-content;
+    min-width: 450px;
     textarea {
       height: fit-content;
       color: black;
@@ -45,6 +45,58 @@ dialog {
   }
 }
 
+.todos-layout {
+  padding-inline: 10px;
+  color: black;
+  position: relative;
+  padding-block-end: 10%;
+  p:focus {
+    outline: none;
+    border: none;
+  }
+  p {
+    width: 100%;
+  }
+  ul {
+    margin: 0;
+  }
+  input {
+    width: 30px;
+  }
+  input:before {
+    content: "";
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    grid-column: 2;
+    margin: 0;
+    transition: background-color 0.3s, border-color 0.3s;
+    transform: translateY(-10px);
+  }
+  input:checked:after {
+    content: "✓";
+    font-family: cursive;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: lightseagreen;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: background-color 0.3s, border-color 0.3s;
+    grid-column: 2;
+    margin: 0;
+    transform: translateY(-10px);
+  }
+}
+
 .backdrop {
   position: fixed;
   top: 0;
@@ -57,9 +109,9 @@ dialog {
 }
 @media (max-width: 800px) {
   dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] textarea[_ngcontent-ng-c2654502689] {
-    padding-bottom: 50px;
+    padding-bottom: 10%;
     min-height: 30vh;
-    min-width: 100vw;
+    width: 100vw;
     overflow: unset;
   }
   dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] {
