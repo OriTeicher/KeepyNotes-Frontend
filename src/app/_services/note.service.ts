@@ -22,8 +22,8 @@ export class NoteService {
         return
       }
       this.setNotes(notes)
-    } catch (e) {
-      console.error('Error loading notes: ', e)
+    } catch (err) {
+      console.error('Error loading notes: ', err)
     } finally {
       this.loadingSubject.next(false)
     }
@@ -47,8 +47,8 @@ export class NoteService {
       currentNotes.unshift({ ...noteToAdd })
       this.notesSubject.next(currentNotes)
       this.originalNotes.unshift(noteToAdd)
-    } catch (e) {
-      console.error('Error adding note: ', e)
+    } catch (err) {
+      console.error('Error adding note: ', err)
     } finally {
       this.loadingSubject.next(false)
     }
@@ -59,18 +59,13 @@ export class NoteService {
     try {
       await dbService.updateNote(noteToUpdate._id, noteToUpdate)
       const currentNotes = [...this.notesSubject.value]
-      const noteIdx = currentNotes.findIndex(
-        (note) => note._id === noteToUpdate._id
-      )
+      const noteIdx = currentNotes.findIndex((note) => note._id === noteToUpdate._id)
       currentNotes[noteIdx] = { ...noteToUpdate }
       this.notesSubject.next(currentNotes)
-
-      const originalNoteIdx = this.originalNotes.findIndex(
-        (note) => note._id === noteToUpdate._id
-      )
+      const originalNoteIdx = this.originalNotes.findIndex((note) => note._id === noteToUpdate._id)
       this.originalNotes[originalNoteIdx] = { ...noteToUpdate }
-    } catch (e) {
-      console.error('Error updating note: ', e)
+    } catch (err) {
+      console.error('Error updating note: ', err)
     } finally {
       this.loadingSubject.next(false)
     }
@@ -80,15 +75,11 @@ export class NoteService {
     this.loadingSubject.next(true)
     try {
       await dbService.removeNote(noteId)
-      const currentNotes = this.notesSubject.value.filter(
-        (note) => note._id !== noteId
-      )
+      const currentNotes = this.notesSubject.value.filter((note) => note._id !== noteId)
       this.notesSubject.next(currentNotes)
-      this.originalNotes = this.originalNotes.filter(
-        (note) => note._id !== noteId
-      )
-    } catch (e) {
-      console.error('Error removing note: ', e)
+      this.originalNotes = this.originalNotes.filter((note) => note._id !== noteId)
+    } catch (err) {
+      console.error('Error removing note: ', err)
     } finally {
       this.loadingSubject.next(false)
     }
@@ -97,20 +88,14 @@ export class NoteService {
   filterNotes(searchTerm: string): void {
     this.loadingSubject.next(true)
     const lowerCaseTerm = searchTerm.toLowerCase()
-    const filteredNotes = this.originalNotes.filter((note) =>
-      note.title.toLowerCase().includes(lowerCaseTerm)
-    )
-
+    const filteredNotes = this.originalNotes.filter((note) => note.title.toLowerCase().includes(lowerCaseTerm))
     this.notesSubject.next(filteredNotes)
-
     setTimeout(() => {
       this.loadingSubject.next(false)
     }, 500)
   }
 
   getFilteredNotes(searchTerm: string): Note[] {
-    return this.originalNotes.filter((note) =>
-      note.title.toLowerCase().startsWith(searchTerm.toLowerCase())
-    )
+    return this.originalNotes.filter((note) => note.title.toLowerCase().startsWith(searchTerm.toLowerCase()))
   }
 }
