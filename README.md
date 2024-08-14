@@ -1,4 +1,5 @@
 # KeepyNotes - Google Keep Clone
+<img src="https://github.com/user-attachments/assets/0421a578-0918-44a4-a1d3-353ef8683fc6" width=90% />
 
 
 ### KeepyNotes is a Google Keep clone created with Angular and Firebase. It replicates the core functionality of Google Keep, allowing you to create, organize, and manage your notes efficiently.
@@ -27,3 +28,4 @@
 
    ```bash
    ng serve
+
