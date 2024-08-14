@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms'
   styleUrls: ['../AddNote/AddNote.scss', '../DynamicNote/DynamicNote.scss', './NoteDetails.scss'],
 })
 export class NoteDetailsComponent implements OnInit {
-  noteToEdit!: Note | null | undefined
+  noteToEdit!: Note
   noteId!: string
 
   constructor(private route: ActivatedRoute, private router: Router, private noteService: NoteService) {}
@@ -20,12 +20,21 @@ export class NoteDetailsComponent implements OnInit {
     try {
       this.route.paramMap.subscribe((paramMap) => {
         this.noteId = paramMap.get('noteId')!!
-        this.noteToEdit = this.noteService.getNoteById(this.noteId)
+        this.noteToEdit = this.noteService.getNoteById(this.noteId)!
         if (!this.noteToEdit) this.router.navigate(['notes'])
       })
     } catch (err) {
       console.log(err)
     }
+  }
+
+  async toggleIsDone(todoId: string) {
+    console.log('todoId', todoId)
+    if (!this.noteToEdit.todos) return
+    const todoToUpdateIdx = this.noteToEdit.todos?.findIndex((todo) => todo._id === todoId)!
+    this.noteToEdit.todos[todoToUpdateIdx].isDone = !this.noteToEdit.todos[todoToUpdateIdx].isDone
+    console.log('this.noteToEdit.todos[todoToUpdateIdx]', this.noteToEdit.todos[todoToUpdateIdx])
+    await this.noteService.updateNote(this.noteToEdit)
   }
 
   onUpdateNote(ev: Event) {

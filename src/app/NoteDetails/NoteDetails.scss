@@ -73,7 +73,7 @@ dialog {
     grid-column: 2;
     margin: 0;
     transition: background-color 0.3s, border-color 0.3s;
-    transform: translateY(-10px);
+    transform: translateY(-13px);
   }
   input:checked:after {
     content: "✓";
@@ -92,7 +92,7 @@ dialog {
     transition: background-color 0.3s, border-color 0.3s;
     grid-column: 2;
     margin: 0;
-    transform: translateY(-10px);
+    transform: translateY(-13px);
   }
 }
 
