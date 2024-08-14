@@ -1,7 +1,7 @@
 <h2>{{note.title}}</h2>
 
 @switch (note.type) {
-@case ('txt') { <p>{{note.txt}}</p> }
+@case ('txt') { <p style="margin-top: 5px;">{{note.txt}}</p> }
 @case ('todo') {
 <ul class="todos-container flex flex-col" (click)="handleEventClick($event)">
   @for (todo of note.todos; track note.todos;) {
