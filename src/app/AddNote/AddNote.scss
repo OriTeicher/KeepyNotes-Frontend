@@ -97,14 +97,88 @@ $font-family-001: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Robo
 }
 
 .img-container {
+  position: relative;
   width: 100%;
   height: calc(100px + 5vh);
-  background: #333333;
+  background: #3b3e41;
   display: flex;
   align-items: center;
   justify-content: center;
+  img {
+    object-fit: contain;
+    width: 80%;
+    height: 100%;
+  }
   button {
-    position: relative;
+    position: absolute;
     width: fit-content;
+    top: 10px;
+    left: 10px;
+    padding: 5px;
+    height: 30px;
+  }
+}
+
+.todos-container {
+  padding-inline-start: 10px;
+  padding-block-start: 5px;
+  background: #3b3e41;
+  padding: inline;
+  min-height: calc(100px + 5vh);
+
+  display: flex;
+  flex-direction: column;
+  .todo-item {
+    padding-inline-end: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .add-todo-btn {
+    position: relative;
+    margin-inline-start: 10px;
+    margin-block-start: 10px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .todo-input {
+    background-color: transparent;
+    padding: 0;
+    font-weight: 100;
+    font-size: 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.123);
+    line-height: 5px;
+    width: 100%;
+    padding-block: 10px;
+    &::placeholder {
+      font-size: 1rem;
+      font-weight: 100;
+      font-size: 14px;
+    }
+    &:focus {
+      background-color: transparent;
+      color: white;
+    }
+  }
+}
+
+.delete-todo-btn {
+  position: absolute;
+  right: 10px;
+  font-family: cursive;
+  outline: 1px solid rgba(255, 255, 255, 0.123);
+  background-color: #33333369;
+  color: #fff;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  border-radius: 50%;
+  &:hover {
+    color: lightcoral;
+    cursor: pointer;
   }
 }

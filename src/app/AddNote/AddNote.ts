@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { ADD_UPDATE_NOTE_ACTION, DEFAULT_NOTE_TYPE, EMPTY_STR } from '../_services/consts.service'
-import { Note } from '../_interfaces/note'
+import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_TYPE, DEFAULT_NOTE_TYPE, EMPTY_STR, IMG_NOTE_TYPE, TODO_NOTE_TYPE, TXT_NOTE_TYPE } from '../_services/consts.service'
+import { Note, TodoItem } from '../_interfaces/note'
 import { getEmptyNote, noteService } from '../_services/note.demo.service'
 import { NoteAction } from '../_interfaces/NoteAction'
 import { NoteBottomActionsComponent } from '../NoteBottomActions/NoteBottomActions'
@@ -10,6 +10,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core'
 import { matColorLens, matViewList, matImage, matTextFormat } from '@ng-icons/material-icons/baseline'
 import axios from 'axios'
 import { cloudinaryService } from '../_services/cloudinary.service'
+import { todoService } from '../_services/todo.service'
 
 @Component({
   selector: 'add-note',
@@ -29,18 +30,29 @@ export class AddNoteComponent {
   description!: string
   type!: string
   imgUrl!: string
+  todos!: TodoItem[]
+  noteToAdd!: Note
   isEditorActive!: boolean
-  icons = [
-    { type: 'txt', svg: 'matTextFormat' },
-    { type: 'todo', svg: 'matViewList' },
-    { type: 'img', svg: 'matImage' },
-    { type: 'color', svg: 'matColorLens' },
+  isImgLoading!: boolean
+
+  editorIcons = [
+    { type: TXT_NOTE_TYPE, svg: 'matTextFormat' },
+    { type: TODO_NOTE_TYPE, svg: 'matViewList' },
+    { type: IMG_NOTE_TYPE, svg: 'matImage' },
+    { type: COLOR_NOTE_TYPE, svg: 'matColorLens' },
   ]
+
   @Output() addNote = new EventEmitter<NoteAction>()
 
   ngOnInit() {
     this.resetEditor()
     this.isEditorActive = false
+    this.type = 'todo'
+  }
+
+  setTodoContent(ev: any, todoId: string) {
+    const todoIdx = this.todos.findIndex((todo) => todo._id === todoId)
+    this.todos[todoIdx].content = ev.target.value
   }
 
   setTitle(ev: any): void {
@@ -48,12 +60,17 @@ export class AddNoteComponent {
   }
 
   setType(noteType: string) {
-    if (noteType === 'color') return
+    if (noteType === COLOR_NOTE_TYPE) return
     this.type = noteType
   }
 
   setDescription(ev: any): void {
     this.description = ev.target.value
+  }
+
+  addTodo() {
+    const newTodo = todoService.getEmptyTodo()
+    this.todos.push(newTodo)
   }
 
   handleFileInput(event: any): void {
@@ -67,30 +84,48 @@ export class AddNoteComponent {
     }
   }
 
+  removeTodo(todoId: string) {
+    console.log('todoId', todoId)
+    this.todos = this.todos.filter((todo) => todo._id !== todoId)
+    console.log('this.todos AFTER REMOVE ', todoId, this.todos)
+  }
+
   resetEditor(): void {
     this.title = EMPTY_STR
     this.description = EMPTY_STR
     this.imgUrl = EMPTY_STR
     this.type = DEFAULT_NOTE_TYPE
+    this.todos = [] as TodoItem[]
+    this.noteToAdd = getEmptyNote()
   }
 
-  async handleImgUpload(noteToAdd: Note): Promise<Note> {
-    if (!this.imgUrl) return noteToAdd
+  async handleImgUpload(): Promise<void> {
+    if (!this.imgUrl) return
     try {
       const res = await cloudinaryService.uploadPhotoToCloud(this.imgUrl)
-      return { ...noteToAdd, imgUrl: res.data.secure_url }
+      this.noteToAdd.imgUrl = res.data.secure_url
     } catch (error) {
       console.error('Image upload failed:', error)
-      return noteToAdd // Return the original noteToAdd even if the upload fails
     }
+  }
+
+  handleTodos() {
+    if (!this.todos) return
+    this.noteToAdd.todos = [...this.todos]
+  }
+
+  setNoteDetails() {
+    this.noteToAdd.title = this.title
+    this.noteToAdd.type = this.type
   }
 
   async handleAddNote(ev: Event): Promise<void> {
     try {
       ev.preventDefault()
-      let noteToAdd = getEmptyNote(this.title, this.description, this.type)
-      noteToAdd = await this.handleImgUpload(noteToAdd)
-      this.addNote.emit({ noteId: EMPTY_STR, type: ADD_UPDATE_NOTE_ACTION, data: noteToAdd })
+      this.setNoteDetails()
+      this.handleTodos()
+      await this.handleImgUpload()
+      this.addNote.emit({ noteId: EMPTY_STR, type: ADD_UPDATE_NOTE_ACTION, data: this.noteToAdd })
       this.resetEditor()
     } catch (err) {
       console.error(err)

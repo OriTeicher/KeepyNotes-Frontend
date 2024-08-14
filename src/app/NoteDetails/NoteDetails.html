@@ -7,7 +7,7 @@
     <textarea placeholder=" How are you today..." [value]="noteToEdit.txt" name="txt"> </textarea>
     }
     @if(noteToEdit.type === 'img'){
-    <img [src]="noteToEdit.imgUrl" style="height: auto; width: 100%; object-fit: cover; border-radius: 0px" />
+    <img [src]="noteToEdit.imgUrl" style="height: auto; width: 100%; object-fit: cover;" />
     }
     @if(noteToEdit.type === 'todo'){
     <div class="todos-layout">

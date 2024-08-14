@@ -16,12 +16,23 @@
   }
 
   @case ('todo') {
-  <textarea placeholder="How are you today..." [value]="description || null"
-    (input)="setDescription($event)"></textarea>}
+  <ul class="todos-container">
+    @for (todo of todos; track $index) {
+    <li class="todo-item">
+      <input class="todo-input" type="text" [class]="todo.isDone ? 'done' : 'active'"
+        (change)="setTodoContent($event,todo._id)" [placeholder]="'This is task number #00'+($index+1)">
+      <p type="button" class="delete-todo-btn" (click)="removeTodo(todo._id)">&times;</p>
+    </li>
+    }
+    <button type="button" class="add-todo-btn" (click)="addTodo()"
+      style="margin-block-end: 40px; margin-block-start: 20px;border-radius: 50%">+</button>
+  </ul>
+
+  }
   }
 
   <div class="icons-container">
-    @for (icon of icons; track icon) {
+    @for (icon of editorIcons; track icon) {
     <ng-icon [name]="icon.svg" class="note-icon" [title]="icon.type" (click)="setType(icon.type)"></ng-icon>
     }
   </div>

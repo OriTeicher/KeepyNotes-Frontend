@@ -44,7 +44,7 @@ export class NoteDetailsComponent implements OnInit {
     const titleInput = form.elements.namedItem('title') as HTMLInputElement
     const txtInput = form.elements.namedItem('txt') as HTMLTextAreaElement
     this.noteToEdit.title = titleInput.value
-    this.noteToEdit.txt = txtInput.value
+    if (this.noteToEdit.type === 'txt') this.noteToEdit.txt = txtInput.value
     this.noteService.updateNote(this.noteToEdit)
     this.router.navigate(['notes'])
   }
