@@ -13,7 +13,6 @@ import { NoteAction } from '../_interfaces/NoteAction'
       matContentCopy,
       matColorLens,
       matContentCopyRound,
-      matDone,
     }),
   ],
   templateUrl: './NoteBottomActions.html',
@@ -28,7 +27,6 @@ export class NoteBottomActionsComponent {
     { type: 'copy', svg: 'matContentCopyRound' },
     { type: 'color', svg: 'matColorLens' },
     // { type: 'img', svg: 'matContentCopyOutline' },
-    { type: 'todo', svg: 'matDone' },
   ]
 
   handleNoteAction(ev: Event, type: string) {

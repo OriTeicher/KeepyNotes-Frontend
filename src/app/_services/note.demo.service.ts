@@ -91,7 +91,7 @@ function getRandomImg(task: string) {
   return unsplashService.fetchPhotoFromUnsplash(1, task)
 }
 
-export function getEmptyNote(title: string = 'Title...', txt: string = 'Description...', type: string = 'txt') {
+export function getEmptyNote(title: string = 'Title...', txt: string = 'Description...', type: string = 'txt'): Note {
   return {
     _id: '',
     title,
@@ -99,7 +99,7 @@ export function getEmptyNote(title: string = 'Title...', txt: string = 'Descript
     type,
     createdAt: formatDate(new Date()),
     color: '#FFF',
-    timestamp: new Date(Date.now()),
+    timestamp: Date.now(),
   }
 }
 

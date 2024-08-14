@@ -1,6 +1,31 @@
 <form class="add-note-container" (submit)="handleAddNote($event)">
   <input type="text" placeholder="Title..." [value]="title || null" (input)="setTitle($event)">
+
+  @switch (type) {
+
+  @case ('txt') {
   <textarea placeholder="How are you today..." [value]="description || null"
     (input)="setDescription($event)"></textarea>
+  }
+  @case ('img') {
+  <div class="img-container">
+    <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none;">
+    <button type="button" (click)="fileInput.click()">Upload Image</button>
+    @if(imgUrl){<img [src]="imgUrl" alt="Uploaded Image Preview">}
+  </div>
+  }
+
+  @case ('todo') {
+  <textarea placeholder="How are you today..." [value]="description || null"
+    (input)="setDescription($event)"></textarea>}
+  }
+
+  <div class="icons-container">
+    @for (icon of icons; track icon) {
+    <ng-icon [name]="icon.svg" class="note-icon" [title]="icon.type" (click)="setType(icon.type)"></ng-icon>
+    }
+  </div>
+
   <button>Keep</button>
+
 </form>
