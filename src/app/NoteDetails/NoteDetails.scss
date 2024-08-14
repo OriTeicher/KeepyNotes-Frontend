@@ -23,7 +23,7 @@ dialog {
       height: fit-content;
       color: black;
       padding: 10px;
-      min-height: 200px;
+      min-height: 150px;
       font-size: 20px;
       font-weight: 400;
       background-color: transparent;
@@ -45,57 +45,71 @@ dialog {
       }
     }
   }
-}
+  .todos-layout {
+    padding-inline: 10px;
+    color: black;
+    position: relative;
+    padding-block-end: 50px;
+    p:focus {
+      outline: none;
+      border: none;
+    }
+    p {
+      width: 100%;
+    }
+    ul {
+      margin: 0;
+    }
 
-.todos-layout {
-  padding-inline: 10px;
-  color: black;
-  position: relative;
-  padding-block-end: 50px;
-  p:focus {
-    outline: none;
-    border: none;
+    input:before {
+      content: "";
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      grid-column: 2;
+      margin: 0;
+      transition: background-color 0.3s, border-color 0.3s;
+      transform: translateY(-13px);
+    }
+    input:checked:after {
+      content: "✓";
+      font-family: cursive;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: lightseagreen;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      transition: background-color 0.3s, border-color 0.3s;
+      grid-column: 2;
+      margin: 0;
+      transform: translateY(-13px);
+    }
   }
-  p {
-    width: 100%;
-  }
-  ul {
-    margin: 0;
-  }
-  input {
-    width: 30px;
-  }
-  input:before {
-    content: "";
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    grid-column: 2;
-    margin: 0;
-    transition: background-color 0.3s, border-color 0.3s;
-    transform: translateY(-13px);
-  }
-  input:checked:after {
-    content: "✓";
-    font-family: cursive;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: lightseagreen;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    transition: background-color 0.3s, border-color 0.3s;
-    grid-column: 2;
-    margin: 0;
-    transform: translateY(-13px);
+  .todo-item {
+    padding: 0;
+    .input-todo {
+      padding: 0;
+    }
+    input {
+      min-width: 90%;
+      border-bottom: none;
+      font-size: 16px;
+      font-weight: 100;
+      padding-inline-start: 10px;
+      &:focus {
+        background-color: transparent;
+        color: black;
+      }
+    }
   }
 }
 
@@ -109,14 +123,31 @@ dialog {
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
-@media (max-width: 800px) {
+@media (max-width: 600px) {
+  dialog {
+    form {
+      width: 100vw;
+      border-radius: 0;
+    }
+  }
   dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] textarea[_ngcontent-ng-c2654502689] {
     padding-bottom: 10%;
-    min-height: 30vh;
-    width: 100vw;
+    border-radius: 0;
     overflow: unset;
+    width: 97%;
+    height: fit-content;
   }
   dialog[_ngcontent-ng-c2654502689] .add-note-container[_ngcontent-ng-c2654502689] {
     border-radius: 0;
+  }
+  dialog[_ngcontent-ng-c4077960885] .todos-layout[_ngcontent-ng-c4077960885] {
+    width: 100vw;
+    border-radius: 0;
+    padding-bottom: 20px;
+  }
+  dialog[_ngcontent-ng-c4077960885] button {
+    position: relative;
+    margin: 0;
+    margin: auto;
   }
 }

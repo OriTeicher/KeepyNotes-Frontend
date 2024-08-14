@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { Note } from '../_interfaces/note'
 import { NoteService } from '../_services/note.service'
 import { FormsModule } from '@angular/forms'
+import { DEFAULT_NOTE_TYPE } from '../_services/consts.service'
 @Component({
   selector: 'App-note-details',
   standalone: true,
@@ -28,12 +29,17 @@ export class NoteDetailsComponent implements OnInit {
     }
   }
 
+  setTodoContent(event: any, todoId: string) {
+    if (!this.noteToEdit.todos) return
+    const todoIdx = this.noteToEdit.todos?.findIndex((todo) => todo._id === todoId)
+    this.noteToEdit.todos[todoIdx].content = event.target.value
+    this.noteService.updateNote(this.noteToEdit)
+  }
+
   async toggleIsDone(todoId: string) {
-    console.log('todoId', todoId)
     if (!this.noteToEdit.todos) return
     const todoToUpdateIdx = this.noteToEdit.todos?.findIndex((todo) => todo._id === todoId)!
     this.noteToEdit.todos[todoToUpdateIdx].isDone = !this.noteToEdit.todos[todoToUpdateIdx].isDone
-    console.log('this.noteToEdit.todos[todoToUpdateIdx]', this.noteToEdit.todos[todoToUpdateIdx])
     await this.noteService.updateNote(this.noteToEdit)
   }
 
@@ -42,9 +48,9 @@ export class NoteDetailsComponent implements OnInit {
     if (!this.noteToEdit) return
     const form = ev.target as HTMLFormElement
     const titleInput = form.elements.namedItem('title') as HTMLInputElement
-    const txtInput = form.elements.namedItem('txt') as HTMLTextAreaElement
+    const txtInput = form.elements.namedItem(DEFAULT_NOTE_TYPE) as HTMLTextAreaElement
     this.noteToEdit.title = titleInput.value
-    if (this.noteToEdit.type === 'txt') this.noteToEdit.txt = txtInput.value
+    if (this.noteToEdit.type === DEFAULT_NOTE_TYPE) this.noteToEdit.txt = txtInput.value
     this.noteService.updateNote(this.noteToEdit)
     this.router.navigate(['notes'])
   }

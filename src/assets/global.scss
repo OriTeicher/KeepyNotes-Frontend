@@ -96,8 +96,7 @@ svg {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   &.closed {
     input {
       font-size: 1rem;
@@ -118,14 +117,15 @@ svg {
   grid-row: 2;
   max-height: calc(100vh - 64px);
   display: flex;
+  align-items: center;
   flex-direction: column;
   transition: 0.4s ease-in;
   .sidebar-link {
     transition: all 0.4s;
     height: 39px;
     p {
-      font-size: 1rem;
-      transition: font-size 0.35s ease-in-out;
+      opacity: 1;
+      transition: opacity 0.35s ease-in-out;
       opacity: 1;
       width: fit-content;
     }
@@ -141,7 +141,7 @@ svg {
     width: 44px;
 
     p {
-      font-size: 0;
+      opacity: 0;
     }
   }
 }

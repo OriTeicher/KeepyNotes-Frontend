@@ -21,7 +21,7 @@ export const NOTES_GRADIENTS = [
   'linear-gradient(0deg, #08AEEA 0%, #2AF598 100%)',
 ]
 
-async function getDemoNotes(amount: number = 10): Promise<Note[]> {
+async function getDemoNotes(amount: number = 17): Promise<Note[]> {
   let notes = []
   for (let i = 0; i < amount; i++) {
     notes.push(await getDemoNote())

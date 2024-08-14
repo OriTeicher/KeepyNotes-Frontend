@@ -2,27 +2,27 @@ import { Component, Output, EventEmitter } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_TYPE, DEFAULT_NOTE_TYPE, EMPTY_STR, IMG_NOTE_TYPE, TODO_NOTE_TYPE, TXT_NOTE_TYPE } from '../_services/consts.service'
 import { Note, TodoItem } from '../_interfaces/note'
-import { getEmptyNote, noteService } from '../_services/note.demo.service'
+import { NOTE_COLORS, getEmptyNote, noteService } from '../_services/note.demo.service'
 import { NoteAction } from '../_interfaces/NoteAction'
 import { NoteBottomActionsComponent } from '../NoteBottomActions/NoteBottomActions'
 import { NgIconComponent, provideIcons } from '@ng-icons/core'
 
-import { matColorLens, matViewList, matImage, matTextFormat } from '@ng-icons/material-icons/baseline'
-import axios from 'axios'
+import { matColorLens, matViewList, matImage, matTextSnippet } from '@ng-icons/material-icons/baseline'
 import { cloudinaryService } from '../_services/cloudinary.service'
 import { todoService } from '../_services/todo.service'
+import { ColorPickerComponent } from '../ColorPicker/ColorPicker'
 
 @Component({
   selector: 'add-note',
   standalone: true,
-  imports: [FormsModule, NoteBottomActionsComponent, NgIconComponent],
+  imports: [FormsModule, NoteBottomActionsComponent, NgIconComponent, ColorPickerComponent],
   templateUrl: './AddNote.html',
-  styleUrls: ['./AddNote.scss'],
+  styleUrls: ['./AddNote.scss', '../ColorPicker/ColorPicker.scss'],
   providers: provideIcons({
     matImage,
     matColorLens,
     matViewList,
-    matTextFormat,
+    matTextSnippet,
   }),
 })
 export class AddNoteComponent {
@@ -34,12 +34,14 @@ export class AddNoteComponent {
   noteToAdd!: Note
   isEditorActive!: boolean
   isImgLoading!: boolean
-
+  isColorPickerOpen: boolean = false
+  colors = NOTE_COLORS
+  selectedColor: string = '#fff'
   editorIcons = [
-    { type: TXT_NOTE_TYPE, svg: 'matTextFormat' },
-    { type: TODO_NOTE_TYPE, svg: 'matViewList' },
-    { type: IMG_NOTE_TYPE, svg: 'matImage' },
     { type: COLOR_NOTE_TYPE, svg: 'matColorLens' },
+    { type: TXT_NOTE_TYPE, svg: 'matTextSnippet' },
+    { type: IMG_NOTE_TYPE, svg: 'matImage' },
+    { type: TODO_NOTE_TYPE, svg: 'matViewList' },
   ]
 
   @Output() addNote = new EventEmitter<NoteAction>()
@@ -59,8 +61,16 @@ export class AddNoteComponent {
     this.title = ev.target.value
   }
 
+  setSelectedColor(color: string) {
+    this.selectedColor = color
+  }
+
   setType(noteType: string) {
-    if (noteType === COLOR_NOTE_TYPE) return
+    if (noteType === COLOR_NOTE_TYPE) {
+      this.isColorPickerOpen = !this.isColorPickerOpen
+      return
+    }
+    this.resetEditor()
     this.type = noteType
   }
 
@@ -91,11 +101,13 @@ export class AddNoteComponent {
   }
 
   resetEditor(): void {
+    this.isColorPickerOpen = false
     this.title = EMPTY_STR
     this.description = EMPTY_STR
     this.imgUrl = EMPTY_STR
     this.type = DEFAULT_NOTE_TYPE
-    this.todos = [] as TodoItem[]
+    this.selectedColor = '#fff'
+    this.todos = [todoService.getEmptyTodo()] as TodoItem[]
     this.noteToAdd = getEmptyNote()
   }
 
@@ -112,14 +124,14 @@ export class AddNoteComponent {
   handleTodos() {
     if (!this.todos) return
     this.noteToAdd.todos = [...this.todos]
-    this.noteToAdd.todos.forEach((todo, idx) => {
-      if (!todo.content) todo.content = `Task number #00${idx + 1}`
-    })
+    this.noteToAdd.todos.forEach((todo, idx) => (!todo.content ? (todo.content = `Task number #00${idx + 1}`) : null))
   }
 
   setNoteDetails() {
     this.noteToAdd.title = this.title
     this.noteToAdd.type = this.type
+    this.noteToAdd.txt = this.description
+    this.noteToAdd.color = this.selectedColor
   }
 
   async handleAddNote(ev: Event): Promise<void> {

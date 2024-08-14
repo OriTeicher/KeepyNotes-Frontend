@@ -18,7 +18,7 @@ export class NoteService {
     try {
       const notes = await dbService.loadNotes()
       if (!notes.length) {
-        this.setNotes(await noteService.getDemoNotes(10))
+        this.setNotes(await noteService.getDemoNotes(16))
         return
       }
       this.setNotes(notes)

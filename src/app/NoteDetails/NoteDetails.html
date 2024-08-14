@@ -14,7 +14,8 @@
       <ul class="todos-container flex flex-col">
         @for (todo of noteToEdit.todos; track noteToEdit?.todos) {
         <li class="todo-item">
-          <p contenteditable="true" [class]="todo.isDone ? 'done' : 'active'">{{todo.content}}</p>
+          <input class="todo-input" type="text" [class]="todo.isDone ? 'done' : 'active'" [value]="todo.content"
+            maxlength="30" (change)="setTodoContent($event, todo._id)">
           <input type="checkbox" [checked]="todo.isDone" (change)="toggleIsDone(todo._id)">
         </li>
         }
