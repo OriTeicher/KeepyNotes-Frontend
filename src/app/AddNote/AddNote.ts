@@ -112,6 +112,9 @@ export class AddNoteComponent {
   handleTodos() {
     if (!this.todos) return
     this.noteToAdd.todos = [...this.todos]
+    this.noteToAdd.todos.forEach((todo, idx) => {
+      if (!todo.content) todo.content = `Task number #00${idx + 1}`
+    })
   }
 
   setNoteDetails() {
