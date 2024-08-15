@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core'
-import { noteService } from '../_services/note.demo.service'
-import { getEmptyNote } from '../_services/note.demo.service'
+
 @Component({
   selector: 'note-canvas',
   standalone: true,
@@ -13,6 +12,9 @@ export class NoteCanvasComponent implements AfterViewInit {
   canvasImgUrl!: string
   private ctx!: CanvasRenderingContext2D
   private drawing = false
+
+  strokeWidth: number = 10
+  strokeColor: string = 'black'
 
   ngAfterViewInit() {
     const canvas = this.canvasElement.nativeElement
@@ -27,8 +29,9 @@ export class NoteCanvasComponent implements AfterViewInit {
 
   resizeCanvas() {
     const canvas = this.canvasElement.nativeElement
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
+    const rect = canvas.getBoundingClientRect()
+    canvas.width = rect.width
+    canvas.height = rect.height
     this.ctx.fillStyle = 'white'
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
@@ -47,19 +50,33 @@ export class NoteCanvasComponent implements AfterViewInit {
   draw(event: MouseEvent) {
     if (!this.drawing) return
 
-    this.ctx.lineWidth = 10
-    this.ctx.lineCap = 'round'
-    this.ctx.strokeStyle = 'black'
+    const canvas = this.canvasElement.nativeElement
+    const rect = canvas.getBoundingClientRect()
 
-    this.ctx.lineTo(event.clientX, event.clientY)
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+
+    this.ctx.lineWidth = this.strokeWidth
+    this.ctx.lineCap = 'round'
+    this.ctx.strokeStyle = this.strokeColor
+
+    this.ctx.lineTo(x, y)
     this.ctx.stroke()
     this.ctx.beginPath()
-    this.ctx.moveTo(event.clientX, event.clientY)
+    this.ctx.moveTo(x, y)
   }
 
   saveCanvas() {
     const canvas = this.canvasElement.nativeElement
     this.canvasImgUrl = canvas.toDataURL('image/png')
     console.log('this.canvasImgUrl', this.canvasImgUrl)
+  }
+
+  setStrokeWidth(width: number) {
+    this.strokeWidth = width
+  }
+
+  setStrokeColor(color: string) {
+    this.strokeColor = color
   }
 }

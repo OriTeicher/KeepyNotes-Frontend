@@ -1,4 +1,25 @@
 <div class="canvas-container">
+  <div class="canvas-controls">
+    <div>
+      <button type="button" [class.selected]="strokeWidth === 5" (click)="setStrokeWidth(5)"
+        style="background-color: black; width: 15px; height: 15px; border-radius: 50%;"></button>
+      <button type="button" [class.selected]="strokeWidth === 10" (click)="setStrokeWidth(10)"
+        style="background-color: black; width: 20px; height: 20px; border-radius: 50%;"></button>
+      <button type="button" [class.selected]="strokeWidth === 15" (click)="setStrokeWidth(15)"
+        style="background-color: black; width: 25px; height: 25px; border-radius: 50%;"></button>
+    </div>
+    <div>
+      <button type="button" [class.selected]="strokeColor === 'white'" (click)="setStrokeColor('white')"
+        style="background-color: #ffffffd8; width: 30px; height: 30px; border-radius: 50%;"></button>
+      <button type="button" [class.selected]="strokeColor === 'black'" (click)="setStrokeColor('black')"
+        style="background-color: black; width: 30px; height: 30px; border-radius: 50%;"></button>
+      <button type="button" [class.selected]="strokeColor === 'blue'" (click)="setStrokeColor('blue')"
+        style="background-color: blue; width: 30px; height: 30px; border-radius: 50%;"></button>
+      <button type="button" [class.selected]="strokeColor === 'red'" (click)="setStrokeColor('red')"
+        style="background-color: red; width: 30px; height: 30px; border-radius: 50%;"></button>
+    </div>
+  </div>
+
   <canvas #canvasElement class="canvas" (mousedown)="startDrawing($event)" (mouseup)="stopDrawing()"
     (mousemove)="draw($event)">
   </canvas>

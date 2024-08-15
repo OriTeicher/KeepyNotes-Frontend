@@ -37,8 +37,7 @@
 
   <div class="icons-container" style="z-index: 10;">
     @for (icon of editorIcons; track icon) {
-    <ng-icon style="z-index: 20;" [name]="icon.svg" class="note-icon" [title]="icon.type"
-      (click)="setType(icon.type)"></ng-icon>
+    <ng-icon [name]="icon.svg" class="note-icon" [title]="icon.type" (click)="setType(icon.type)"></ng-icon>
     }
   </div>
   <button style="z-index: 10;">Keep</button>
