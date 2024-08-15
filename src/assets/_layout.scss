@@ -2,14 +2,12 @@
   display: grid;
   grid-template-rows: 64px 1fr;
   grid-template-columns: auto 1fr;
-  transition: grid-template-columns 0.3s ease-in-out;
   min-height: 100vh;
   z-index: 1;
 }
 
 // ?navbar
 .navbar {
-  transition: 0.4s ease-in;
   color: #fff;
   z-index: 2;
   position: sticky;
@@ -48,7 +46,8 @@
   transition: width 0.4s ease-in;
   will-change: width;
   .sidebar-link {
-    p {
+    p,
+    .sidebar-svg {
       font-size: 1rem;
       transition: font-size 0.35s ease-in-out;
       opacity: 1;
@@ -64,8 +63,10 @@
   }
 
   &.closed {
-    width: 44px;
-    p {
+    display: none;
+    width: 0px;
+    p,
+    .sidebar-svg {
       font-size: 0;
     }
   }
@@ -113,6 +114,9 @@
   .navbar.closed {
     grid-template-columns: 44px 1fr auto;
   }
+  .sidebar {
+    display: none;
+  }
   .header-input {
     min-width: unset;
     width: 97%;
@@ -120,13 +124,15 @@
   .main-layout {
     display: grid;
     grid-template-rows: 64px 1fr;
-    grid-template-columns: 35px 1fr;
+    grid-template-columns: 0px 1fr;
     will-change: grid-template-columns;
-    transition: grid-template-columns 0.2s ease-in-out;
     min-height: 100vh;
     .note-index {
-      padding-inline-start: 20px;
+      padding-inline-start: 10px;
       padding-inline-end: 10px;
+      form {
+        margin: 0px 0 10px;
+      }
     }
     z-index: 1;
   }
@@ -136,10 +142,5 @@
   }
   .open-index {
     will-change: width;
-
-    .sidebar {
-      will-change: width;
-      width: 150px;
-    }
   }
 }

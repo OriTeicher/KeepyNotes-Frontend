@@ -35,12 +35,12 @@
 
   }
 
-  <div class="icons-container" style="z-index: 10;">
+  <div class="icons-container">
     @for (icon of editorIcons; track icon) {
     <ng-icon [name]="icon.svg" class="note-icon" [title]="icon.type" (click)="setType(icon.type)"></ng-icon>
     }
   </div>
-  <button style="z-index: 10;">Keep</button>
+  <button>Keep</button>
   @if (isColorPickerOpen) {
   <ul class="colors-container">
     @for (color of colors; track $index) {

@@ -20,6 +20,10 @@ export class NoteCanvasComponent implements AfterViewInit {
     const canvas = this.canvasElement.nativeElement
     this.ctx = canvas.getContext('2d')!
     this.resizeCanvas()
+
+    canvas.addEventListener('touchstart', this.startDrawing.bind(this), false)
+    canvas.addEventListener('touchmove', this.draw.bind(this), false)
+    canvas.addEventListener('touchend', this.stopDrawing.bind(this), false)
   }
 
   @HostListener('window:resize', ['$event'])
@@ -36,7 +40,7 @@ export class NoteCanvasComponent implements AfterViewInit {
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  startDrawing(event: MouseEvent) {
+  startDrawing(event: MouseEvent | TouchEvent) {
     this.drawing = true
     this.draw(event)
   }
@@ -47,14 +51,29 @@ export class NoteCanvasComponent implements AfterViewInit {
     this.saveCanvas()
   }
 
-  draw(event: MouseEvent) {
+  draw(event: MouseEvent | TouchEvent) {
     if (!this.drawing) return
+
+    event.preventDefault()
 
     const canvas = this.canvasElement.nativeElement
     const rect = canvas.getBoundingClientRect()
 
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
+    let x: number, y: number
+
+    if (event instanceof MouseEvent) {
+      x = event.clientX - rect.left
+      y = event.clientY - rect.top
+    } else if (event instanceof TouchEvent) {
+      const touch = event.touches[0]
+      x = touch.clientX - rect.left
+      y = touch.clientY - rect.top
+    } else {
+      return
+    }
+
+    x = x ?? 0
+    y = y ?? 0
 
     this.ctx.lineWidth = this.strokeWidth
     this.ctx.lineCap = 'round'
@@ -65,7 +84,6 @@ export class NoteCanvasComponent implements AfterViewInit {
     this.ctx.beginPath()
     this.ctx.moveTo(x, y)
   }
-
   saveCanvas() {
     const canvas = this.canvasElement.nativeElement
     this.canvasImgUrl = canvas.toDataURL('image/png')

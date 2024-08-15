@@ -54,7 +54,7 @@ export class AddNoteComponent {
   ngOnInit() {
     this.resetEditor()
     this.isEditorActive = false
-    this.type = 'canvas'
+    this.type = DEFAULT_NOTE_TYPE
   }
 
   setTodoContent(ev: any, todoId: string) {

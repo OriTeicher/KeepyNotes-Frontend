@@ -2,6 +2,6 @@
 <div class="sidebar-link" [ngClass]="{'selected': selectedRoute === link.route}"
   (click)="handleRouteSelect(link.route)">
   <p>{{link.label}}</p>
-  <ng-icon [name]="link.svg"></ng-icon>
+  <ng-icon [name]="link.svg" class="sidebar-svg"></ng-icon>
 </div>
 }
