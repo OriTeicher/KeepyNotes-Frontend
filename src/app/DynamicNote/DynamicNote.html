@@ -13,6 +13,7 @@
 </ul>
 }
 @case ('img') { <img [src]="note.imgUrl" alt="img" /> }
+@case ('canvas') { <img [src]="note.canvas" alt="img" />}
 }
 
 <p style="position: absolute; bottom: 6.5px; right: 5px; color: #333">{{note.createdAt}}</p>

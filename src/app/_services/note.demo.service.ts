@@ -99,6 +99,7 @@ export function getEmptyNote(title: string = 'Title...', txt: string = 'Descript
     type,
     createdAt: formatDate(new Date()),
     color: '#FFF',
+    canvas: '',
     timestamp: Date.now(),
   }
 }

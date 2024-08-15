@@ -9,6 +9,9 @@
     @if(noteToEdit.type === 'img'){
     <img [src]="noteToEdit.imgUrl" style="height: auto; width: 100%; object-fit: cover;" />
     }
+    @if(noteToEdit.type === 'canvas'){
+    <img [src]="noteToEdit.canvas" style="height: auto; width: 100%; object-fit: cover;" />
+    }
     @if(noteToEdit.type === 'todo'){
     <div class="todos-layout">
       <ul class="todos-container flex flex-col">

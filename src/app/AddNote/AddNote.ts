@@ -1,21 +1,22 @@
-import { Component, Output, EventEmitter } from '@angular/core'
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_TYPE, DEFAULT_NOTE_TYPE, EMPTY_STR, IMG_NOTE_TYPE, TODO_NOTE_TYPE, TXT_NOTE_TYPE } from '../_services/consts.service'
+import { ADD_UPDATE_NOTE_ACTION, CANVAS_NOTE_TYPE, COLOR_NOTE_TYPE, DEFAULT_NOTE_TYPE, EMPTY_STR, IMG_NOTE_TYPE, TODO_NOTE_TYPE, TXT_NOTE_TYPE } from '../_services/consts.service'
 import { Note, TodoItem } from '../_interfaces/note'
-import { NOTE_COLORS, getEmptyNote, noteService } from '../_services/note.demo.service'
+import { NOTE_COLORS, getEmptyNote } from '../_services/note.demo.service'
 import { NoteAction } from '../_interfaces/NoteAction'
 import { NoteBottomActionsComponent } from '../NoteBottomActions/NoteBottomActions'
 import { NgIconComponent, provideIcons } from '@ng-icons/core'
 
-import { matColorLens, matViewList, matImage, matTextSnippet } from '@ng-icons/material-icons/baseline'
+import { matColorLens, matBrush, matViewList, matImage, matAdd, matTextSnippet, matClose } from '@ng-icons/material-icons/baseline'
 import { cloudinaryService } from '../_services/cloudinary.service'
 import { todoService } from '../_services/todo.service'
 import { ColorPickerComponent } from '../ColorPicker/ColorPicker'
+import { NoteCanvasComponent } from '../NoteCanvas/NoteCanvas'
 
 @Component({
   selector: 'add-note',
   standalone: true,
-  imports: [FormsModule, NoteBottomActionsComponent, NgIconComponent, ColorPickerComponent],
+  imports: [FormsModule, NoteBottomActionsComponent, NgIconComponent, ColorPickerComponent, NoteCanvasComponent],
   templateUrl: './AddNote.html',
   styleUrls: ['./AddNote.scss', '../ColorPicker/ColorPicker.scss'],
   providers: provideIcons({
@@ -23,6 +24,9 @@ import { ColorPickerComponent } from '../ColorPicker/ColorPicker'
     matColorLens,
     matViewList,
     matTextSnippet,
+    matClose,
+    matAdd,
+    matBrush,
   }),
 })
 export class AddNoteComponent {
@@ -42,14 +46,15 @@ export class AddNoteComponent {
     { type: TXT_NOTE_TYPE, svg: 'matTextSnippet' },
     { type: IMG_NOTE_TYPE, svg: 'matImage' },
     { type: TODO_NOTE_TYPE, svg: 'matViewList' },
+    { type: CANVAS_NOTE_TYPE, svg: 'matBrush' },
   ]
-
+  @ViewChild('noteCanvas') noteCanvas!: NoteCanvasComponent
   @Output() addNote = new EventEmitter<NoteAction>()
 
   ngOnInit() {
     this.resetEditor()
     this.isEditorActive = false
-    this.type = 'todo'
+    this.type = 'canvas'
   }
 
   setTodoContent(ev: any, todoId: string) {
@@ -134,11 +139,18 @@ export class AddNoteComponent {
     this.noteToAdd.color = this.selectedColor
   }
 
+  handleCanvas() {
+    if (this.noteToAdd.type !== CANVAS_NOTE_TYPE || !this.noteCanvas.canvasImgUrl) return
+    this.noteCanvas.saveCanvas()
+    this.noteToAdd.canvas = this.noteCanvas.canvasImgUrl
+  }
+
   async handleAddNote(ev: Event): Promise<void> {
     try {
       ev.preventDefault()
       this.setNoteDetails()
       this.handleTodos()
+      this.handleCanvas()
       await this.handleImgUpload()
       this.addNote.emit({ noteId: EMPTY_STR, type: ADD_UPDATE_NOTE_ACTION, data: this.noteToAdd })
       this.resetEditor()

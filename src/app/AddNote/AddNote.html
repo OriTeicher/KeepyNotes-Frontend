@@ -7,6 +7,7 @@
   <textarea placeholder="How are you today..." [value]="description || null"
     (input)="setDescription($event)"></textarea>
   }
+
   @case ('img') {
   <div class="img-container">
     <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none;">
@@ -21,22 +22,26 @@
     <li class="todo-item">
       <input class="todo-input" type="text" [class]="todo.isDone ? 'done' : 'active'"
         (change)="setTodoContent($event,todo._id)" [placeholder]="'This is task number #00'+($index+1)">
-      <p type="button" class="delete-todo-btn" (click)="removeTodo(todo._id)">&times;</p>
-    </li>
-    }
-    <button type="button" class="add-todo-btn" (click)="addTodo()"
-      style="margin-block-end: 40px; margin-block-start: 20px;border-radius: 50%">+</button>
+      <ng-icon name="matClose" class="delete-todo-btn" (click)="removeTodo(todo._id)"></ng-icon>
+      }
+      <ng-icon type="button" name="matAdd" class="delete-todo-btn add-todo-btn" (click)="addTodo()"
+        style="margin-block-end: 50px; margin-block-start: 20px;border-radius: 50%"></ng-icon>
   </ul>
+  }
+
+  @case ('canvas') {
+  <note-canvas #noteCanvas style="background-color: #3b3e41;"></note-canvas>
+  }
 
   }
-  }
-  <div class="icons-container">
+
+  <div class="icons-container" style="z-index: 10;">
     @for (icon of editorIcons; track icon) {
-    <ng-icon [name]="icon.svg" class="note-icon" [title]="icon.type" (click)="setType(icon.type)"></ng-icon>
+    <ng-icon style="z-index: 20;" [name]="icon.svg" class="note-icon" [title]="icon.type"
+      (click)="setType(icon.type)"></ng-icon>
     }
   </div>
-
-  <button>Keep</button>
+  <button style="z-index: 10;">Keep</button>
   @if (isColorPickerOpen) {
   <ul class="colors-container">
     @for (color of colors; track $index) {
