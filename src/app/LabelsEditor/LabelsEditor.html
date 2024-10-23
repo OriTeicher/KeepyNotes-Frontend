@@ -1,1 +1,11 @@
-<p>labels-editor works!</p>
+@if (isLabelsEditorOpen) {
+<form (submit)="onSubmit($event)" class="labels-editor-container" [class]="{'show': selectedNote._id === noteId}">
+  <input required="{backgroundColor: selectedColor}" maxlength="20" type="text" placeholder="Enter label's name..."
+    (click)="onInputClick($event)">
+  <!-- <input class="color-picker" type="color" (click)="onInputClick($event)" (input)="setLabelColor($event)"
+    value="#FFFFFF" /> -->
+  <button type="submit" class="add-btn" (click)="onInputClick($event)">
+    <ng-icon name="matPlus"></ng-icon>
+  </button>
+</form>
+}

@@ -87,7 +87,6 @@ export class NoteCanvasComponent implements AfterViewInit {
   saveCanvas() {
     const canvas = this.canvasElement.nativeElement
     this.canvasImgUrl = canvas.toDataURL('image/png')
-    console.log('this.canvasImgUrl', this.canvasImgUrl)
   }
 
   setStrokeWidth(width: number) {

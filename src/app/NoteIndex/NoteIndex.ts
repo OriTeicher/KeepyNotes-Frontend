@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRe
 import { NoteService } from '../_services/note.service'
 import { NoteBottomActionsComponent } from '../NoteBottomActions/NoteBottomActions'
 import { Note } from '../_interfaces/note'
-import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_ACTION, COPY_NOTE_ACTION, REMOVE_NOTE_ACTION } from '../_services/consts.service'
+import { ADD_UPDATE_NOTE_ACTION, COLOR_NOTE_ACTION, COPY_NOTE_ACTION, LABELS_NOTE_TYPE, REMOVE_NOTE_ACTION } from '../_services/consts.service'
 import { ColorPickerComponent } from '../ColorPicker/ColorPicker'
 import { HoverDirective } from '../_directives/note.hover.directive'
 import { AddNoteComponent } from '../AddNote/AddNote'
@@ -13,11 +13,12 @@ import { Subscription } from 'rxjs'
 import { Loader } from '../Loader/Loader'
 import { makeId } from '../_services/util.service'
 import { DynamicNoteComponent } from '../DynamicNote/DynamicNote'
+import { LabelsEditorComponent } from '../LabelsEditor/LabelsEditor'
 
 @Component({
   selector: 'note-index',
   standalone: true,
-  imports: [DynamicNoteComponent, Loader, CommonModule, NoteBottomActionsComponent, ColorPickerComponent, AddNoteComponent, HoverDirective, RouterModule],
+  imports: [DynamicNoteComponent, LabelsEditorComponent, Loader, CommonModule, NoteBottomActionsComponent, ColorPickerComponent, AddNoteComponent, HoverDirective, RouterModule],
   templateUrl: './NoteIndex.html',
   styleUrls: ['./NoteIndex.scss', '../../main.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,9 +26,10 @@ import { DynamicNoteComponent } from '../DynamicNote/DynamicNote'
 export class NoteIndexComponent implements OnInit, OnDestroy {
   notes!: Note[]
   selectedNote!: Note | null
-  isColorPickerOpen!: boolean
+  isColorPickerOpen: boolean = false
+  isLabelsEditorOpen: boolean = false
   colorPickerTimeout!: number
-  isLoadingNotes: boolean = false
+  isLoadingNotes!: boolean
   private subscription!: Subscription
 
   constructor(private notesService: NoteService, private router: Router, private cdr: ChangeDetectorRef) {}
@@ -89,6 +91,9 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
       }, 2500)
     }
   }
+  toggleLabelsEditor(): void {
+    this.isLabelsEditorOpen = !this.isLabelsEditorOpen
+  }
 
   displayNoteEditor(noteId: string): void {
     this.router.navigate(['notes', noteId])
@@ -96,6 +101,7 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
 
   async onNoteAction(action: NoteAction): Promise<void> {
     this.selectedNote = action.noteId ? this.notes[this.getNoteIdxById(action.noteId)] : null
+    console.log('this.selectedNote', this.selectedNote)
     switch (action.type) {
       case ADD_UPDATE_NOTE_ACTION:
         await this.addUpdateNote(action.noteId, action.data)
@@ -108,6 +114,9 @@ export class NoteIndexComponent implements OnInit, OnDestroy {
         break
       case COLOR_NOTE_ACTION:
         action.data ? await this.paintNote(action.data, action.noteId!) : this.toggleColorPicker()
+        break
+      case LABELS_NOTE_TYPE:
+        this.toggleLabelsEditor()
         break
     }
   }

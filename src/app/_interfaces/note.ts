@@ -9,6 +9,7 @@ export interface Note {
   todos?: TodoItem[]
   imgUrl?: string
   canvas?: string
+  labels?: NoteLabel[]
 }
 
 export interface TodoItem {
@@ -16,4 +17,10 @@ export interface TodoItem {
   createdAt: Date
   content: string
   isDone: boolean
+}
+
+export interface NoteLabel {
+  _id: string
+  title: string
+  color?: string
 }

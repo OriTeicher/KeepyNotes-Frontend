@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core'
 import { NgIconComponent, provideIcons } from '@ng-icons/core'
-import { matDeleteForever, matContentCopy, matColorLens, matDone } from '@ng-icons/material-icons/baseline'
+import { matDeleteForever, matContentCopy, matColorLens, matTag } from '@ng-icons/material-icons/baseline'
 import { matContentCopyRound } from '@ng-icons/material-icons/round'
 import { NoteAction } from '../_interfaces/NoteAction'
-import { COLOR_NOTE_ACTION, COPY_NOTE_ACTION, REMOVE_NOTE_ACTION } from '../_services/consts.service'
+import { COLOR_NOTE_ACTION, COPY_NOTE_ACTION, REMOVE_NOTE_ACTION, LABELS_NOTE_TYPE } from '../_services/consts.service'
 @Component({
   selector: 'note-bottom-actions',
   standalone: true,
@@ -14,6 +14,7 @@ import { COLOR_NOTE_ACTION, COPY_NOTE_ACTION, REMOVE_NOTE_ACTION } from '../_ser
       matContentCopy,
       matColorLens,
       matContentCopyRound,
+      matTag,
     }),
   ],
   templateUrl: './NoteBottomActions.html',
@@ -27,6 +28,7 @@ export class NoteBottomActionsComponent {
     { type: REMOVE_NOTE_ACTION, svg: 'matDeleteForever' },
     { type: COPY_NOTE_ACTION, svg: 'matContentCopyRound' },
     { type: COLOR_NOTE_ACTION, svg: 'matColorLens' },
+    { type: LABELS_NOTE_TYPE, svg: 'matTag' },
   ]
 
   handleNoteAction(ev: Event, type: string) {

@@ -8,6 +8,11 @@
     (input)="setDescription($event)"></textarea>
   }
 
+  @case ('labels'){
+  <textarea placeholder="How are you today..." [value]="description || null"
+    (input)="setDescription($event)"></textarea>
+  }
+
   @case ('img') {
   <div class="img-container">
     <input type="file" #fileInput (change)="handleFileInput($event)" style="display: none;">

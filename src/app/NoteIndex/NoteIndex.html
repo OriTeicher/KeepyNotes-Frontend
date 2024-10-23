@@ -8,6 +8,14 @@
     <note-bottom-actions class="icons-container" [noteId]="note._id" (noteAction)="onNoteAction($event)" />
     <color-picker [noteId]="note._id" [noteColor]="note.color" [selectedNote]="selectedNote!"
       [isColorPickerOpen]="isColorPickerOpen" (selectedColor)="onNoteAction($event)"> </color-picker>
+    <labels-editor *ngIf="isLabelsEditorOpen" [noteId]="note._id" [isLabelsEditorOpen]="isLabelsEditorOpen"
+      [selectedNote]="selectedNote!">
+    </labels-editor>
+    @for (label of note.labels; track label) {
+    <div class="note-label" [ngStyle]="{'background': label.color}">
+      <p>{{label.title}}</p>
+    </div>
+    }
   </div>
   }
 </section>
